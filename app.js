@@ -8,56 +8,54 @@ RULES OF THE GAME:
 */
 
 // Set original default variables
-let scores, roundScore, activePlayer;
+let scores, roundScore, activePlayer, gamePlaying;
 
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
-  // Generate random #
-  var dice = Math.floor(Math.random() * 6) + 1;
+  if (gamePlaying) {
+    // Generate random #
+    var dice = Math.floor(Math.random() * 6) + 1;
 
-  // Display number and update image
-  var diceDOM = document.querySelector('.dice');
-  diceDOM.style.display = 'block';
-  diceDOM.src = 'dice-' + dice + '.png';
-  
-  // Update roundScore if # is not 1
-  if (dice !== 1) {
-
-    // Add dice value to roundScore
-    roundScore += dice;
-    // Make player's current score visible and equal to round score
-    document.getElementById('current-' + activePlayer).textContent = roundScore;
-
-  } else {
-
-    nextPlayer();
-  
+    // Display number and update image
+    var diceDOM = document.querySelector('.dice');
+    diceDOM.style.display = 'block';
+    diceDOM.src = 'dice-' + dice + '.png';
+    
+    // Update roundScore if # is not 1
+    if (dice !== 1) {
+      // Add dice value to roundScore
+      roundScore += dice;
+      // Make player's current score visible and equal to round score
+      document.getElementById('current-' + activePlayer).textContent = roundScore;
+    } else {
+      nextPlayer();
+    }
   }
 });
 
 document.querySelector('.btn-hold').addEventListener('click', function() {
-  // Add current score to global score
-  scores[activePlayer] += roundScore;
-  
-  // Update UI of global score
-  document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+  if (gamePlaying) {  
+    // Add current score to global score
+    scores[activePlayer] += roundScore;
+    
+    // Update UI of global score
+    document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 
-  // Check to see if theres a winner => if no winner nextPlayer()
-  if (scores[activePlayer] >= 100) {
-    document.getElementById('name-' + activePlayer).textContent = 'Winner!';
-    document.querySelector('.dice').style.display = 'none';
-    document.querySelector('.btn-roll').style.display = 'none';
-    document.querySelector('.btn-hold').style.display = 'none';
-    document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-  } else {
-    nextPlayer();
+    // Check to see if theres a winner => if no winner nextPlayer()
+    if (scores[activePlayer] >= 100) {
+      gamePlaying = false;
+      document.getElementById('name-' + activePlayer).textContent = 'Winner!';
+      document.querySelector('.dice').style.display = 'none';
+      document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+      document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+    } else {
+      nextPlayer();
+    }
   }
 })
 
 function nextPlayer() {
-
   // Switch the active player
   activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
   // Reset currentScore of both players
@@ -70,7 +68,6 @@ function nextPlayer() {
   document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
   // Make dice disapear <-- COMMENTED OUT => I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
   //diceDOM.style.display = 'none';
-
 }
 
 document.querySelector('.btn-new').addEventListener('click',init);
@@ -78,6 +75,7 @@ document.querySelector('.btn-new').addEventListener('click',init);
 // Initialize a new game
 function init() {
   // Resets initial scores
+  gamePlaying = true;
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
@@ -96,8 +94,6 @@ function init() {
   document.querySelector('.player-0-panel').classList.remove('active');
   document.querySelector('.player-1-panel').classList.remove('active');
   document.querySelector('.player-0-panel').classList.add('active');
-  document.querySelector('.btn-roll').style.display = 'block';
-  document.querySelector('.btn-hold').style.display = 'block';
 }
 
 
