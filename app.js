@@ -39,23 +39,59 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     document.getElementById('current-' + activePlayer).textContent = roundScore;
 
   } else {
-    
-    // Switch the active player
-    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    // Reset currentScore of both players
-    document.getElementById('current-0').textContent = 0;
-    document.getElementById('current-1').textContent = 0;
-    // Reset roundScore
-    roundScore = 0;
-    // Switch 'active class'
-    document.getElementsByClassName('player-0-panel')[0].classList.toggle('active');
-    document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
-    // Make dice disapear <-- COMMENTED OUT BECAUSE I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
-    //diceDOM.style.display = 'none';
+    nextPlayer();
+    // // Switch the active player
+    // activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    // // Reset currentScore of both players
+    // document.getElementById('current-0').textContent = 0;
+    // document.getElementById('current-1').textContent = 0;
+    // // Reset roundScore
+    // roundScore = 0;
+    // // Switch 'active class'
+    // document.getElementsByClassName('player-0-panel')[0].classList.toggle('active');
+    // document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
+    // // Make dice disapear <-- COMMENTED OUT BECAUSE I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
+    // //diceDOM.style.display = 'none';
 
   }
 });
 
+document.querySelector('.btn-hold').addEventListener('click', function() {
+  // Add current score to global score
+  scores[activePlayer] += roundScore;
+  
+  // Update UI of global score
+  document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
+
+  // Check to see if theres a winner => if no winner nextPlayer()
+  if (scores[activePlayer] >= 100) {
+    document.getElementById('name-' + activePlayer).textContent = 'Winner!';
+    document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.btn-roll').style.display = 'none';
+    document.querySelector('.btn-hold').style.display = 'none';
+    document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+  } else {
+    nextPlayer();
+  }
+})
+
+function nextPlayer() {
+
+  // Switch the active player
+  activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+  // Reset currentScore of both players
+  document.getElementById('current-0').textContent = 0;
+  document.getElementById('current-1').textContent = 0;
+  // Reset roundScore
+  roundScore = 0;
+  // Switch 'active class'
+  document.getElementsByClassName('player-0-panel')[0].classList.toggle('active');
+  document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
+  // Make dice disapear <-- COMMENTED OUT BECAUSE I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
+  //diceDOM.style.display = 'none';
+
+}
 
 // document.querySelector('#current-' + activePlayer).textContent = dice;
 
