@@ -9,17 +9,8 @@ RULES OF THE GAME:
 
 // Set original default variables
 let scores, roundScore, activePlayer;
-scores = [0,0];
-roundScore = 0;
-activePlayer = 0;
 
-
-document.querySelector('.dice').style.display = 'none';
-
-document.getElementById('score-0').textContent = 0;
-document.getElementById('score-1').textContent = 0;
-document.getElementById('current-0').textContent = 0;
-document.getElementById('current-1').textContent = 0;
+init();
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
   // Generate random #
@@ -39,20 +30,9 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     document.getElementById('current-' + activePlayer).textContent = roundScore;
 
   } else {
-    nextPlayer();
-    // // Switch the active player
-    // activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    // // Reset currentScore of both players
-    // document.getElementById('current-0').textContent = 0;
-    // document.getElementById('current-1').textContent = 0;
-    // // Reset roundScore
-    // roundScore = 0;
-    // // Switch 'active class'
-    // document.getElementsByClassName('player-0-panel')[0].classList.toggle('active');
-    // document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
-    // // Make dice disapear <-- COMMENTED OUT BECAUSE I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
-    // //diceDOM.style.display = 'none';
 
+    nextPlayer();
+  
   }
 });
 
@@ -88,15 +68,37 @@ function nextPlayer() {
   // Switch 'active class'
   document.getElementsByClassName('player-0-panel')[0].classList.toggle('active');
   document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
-  // Make dice disapear <-- COMMENTED OUT BECAUSE I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
+  // Make dice disapear <-- COMMENTED OUT => I LIKE IT BETTER WHEN YOU CAN SEE THE DICE WITH 1 ROLLED
   //diceDOM.style.display = 'none';
 
 }
 
-// document.querySelector('#current-' + activePlayer).textContent = dice;
+document.querySelector('.btn-new').addEventListener('click',init);
 
-// var x = document.querySelector('#score-0').textContent;
-// console.log(x);
+// Initialize a new game
+function init() {
+  // Resets initial scores
+  scores = [0,0];
+  roundScore = 0;
+  activePlayer = 0;
+  
+  // Resets inital UI displayed scores
+  document.querySelector('.dice').style.display = 'none';
+  document.getElementById('score-0').textContent = 0;
+  document.getElementById('score-1').textContent = 0;
+  document.getElementById('current-0').textContent = 0;
+  document.getElementById('current-1').textContent = 0;
+
+  document.getElementById('name-0').textContent = 'Player 1';
+  document.getElementById('name-1').textContent = 'Player 2';
+  document.querySelector('.player-0-panel').classList.remove('winner');
+  document.querySelector('.player-1-panel').classList.remove('winner');
+  document.querySelector('.player-0-panel').classList.remove('active');
+  document.querySelector('.player-1-panel').classList.remove('active');
+  document.querySelector('.player-0-panel').classList.add('active');
+  document.querySelector('.btn-roll').style.display = 'block';
+  document.querySelector('.btn-hold').style.display = 'block';
+}
 
 
 
