@@ -8,7 +8,9 @@ RULES OF THE GAME:
 */
 
 // Set original default variables
-let scores, roundScore, activePlayer, gamePlaying;
+let scores, roundScore, activePlayer, gamePlaying, goalScore, rebuttleRound;
+
+goalScore = 20;
 
 init();
 
@@ -43,14 +45,20 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 
     // Check to see if theres a winner => if no winner nextPlayer()
-    if (scores[activePlayer] >= 100) {
-      gamePlaying = false;
-      document.getElementById('name-' + activePlayer).textContent = 'Winner!';
-      document.querySelector('.dice').style.display = 'none';
-      document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-      document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+    if (scores[activePlayer] >= goalScore) {
+      if (activePlayer === 1) {
+        endGame();
+        // gamePlaying = false;
+        // document.getElementById('name-' + activePlayer).textContent = 'Winner!';
+        // document.querySelector('.dice').style.display = 'none';
+        // document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        // document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+      } else {
+        nextPlayer();
+      }
     } else {
       nextPlayer();
+      rebuttleRound = true;
     }
   }
 })
@@ -76,6 +84,7 @@ document.querySelector('.btn-new').addEventListener('click',init);
 function init() {
   // Resets initial scores
   gamePlaying = true;
+  rebuttleRound = false;
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
@@ -96,6 +105,13 @@ function init() {
   document.querySelector('.player-0-panel').classList.add('active');
 }
 
+function endGame() {
+  gamePlaying = false;
+  document.getElementById('name-' + activePlayer).textContent = 'Winner!';
+  document.querySelector('.dice').style.display = 'none';
+  document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+  document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+}
 
 
 
