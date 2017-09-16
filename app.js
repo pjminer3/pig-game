@@ -67,9 +67,9 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
           endGame();
         } else /* If Player 1 Won */{
           // Player 2 gets one last chance at Rebuttle
-          rebuttleRound = true;
           document.getElementById('name-1').textContent = 'REBUTTLE!';
           nextPlayer();
+          rebuttleRound = true;
         }
       } else /* There's no winner... */ {
         nextPlayer();
@@ -91,6 +91,9 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 })
 
 function nextPlayer() {
+  if (rebuttleRound) {
+    endGame();
+  }
   // Switch the active player
   activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
   // Reset currentScore of both players
