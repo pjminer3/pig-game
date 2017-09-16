@@ -94,7 +94,7 @@ function init() {
   // Resets initial scores
   gamePlaying = true;
   rebuttleRound = false;
-  goalScore = 100;
+  goalScore = prompt('Set Final Score Goal:', 'Enter number here');
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
