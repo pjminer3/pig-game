@@ -8,7 +8,7 @@ RULES OF THE GAME:
 */
 
 // Set original default variables
-let scores, roundScore, activePlayer, gamePlaying, goalScore, rebuttleRound;
+let scores, roundScore, activePlayer, gamePlaying, goalScore, rebuttleRound, prevRoll;
 
 init();
 
@@ -17,11 +17,27 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     // Generate random #
     var dice = Math.floor(Math.random() * 6) + 1;
 
+    // Functionality for if two 6's rolled in a row;
+    if (dice === 6 && prevRoll === 6) {
+      // Set player's global score to 0
+      scores[activePlayer] = 0;
+      // Set player's round score to 0
+      roundScore = 0;
+      // Update the UI rendering of player's scores
+      updateScores();
+      nextPlayer();
+
+      // Return out of Roll because player lost all points and turn is over
+      return;
+    }
+
     // Display number and update image
     var diceDOM = document.querySelector('.dice');
     diceDOM.style.display = 'block';
     diceDOM.src = 'dice-' + dice + '.png';
     
+    // Make prevRoll the current dice roll
+    prevRoll = dice;
 
     // Update roundScore if # is not 1
     if (dice !== 1) {
@@ -85,6 +101,8 @@ function nextPlayer() {
   // Switch 'active class'
   document.getElementsByClassName('player-0-panel')[0].classList.toggle('active');
   document.getElementsByClassName('player-1-panel')[0].classList.toggle('active');
+  // Reset prevRoll
+  prevRoll = 0;
 }
 
 document.querySelector('.btn-new').addEventListener('click',init);
@@ -92,6 +110,7 @@ document.querySelector('.btn-new').addEventListener('click',init);
 // Initialize a new game
 function init() {
   // Resets initial scores
+  prevRoll = 0;
   gamePlaying = true;
   rebuttleRound = false;
   goalScore = 100;
@@ -139,6 +158,7 @@ function updateScores() {
   // Update UI of global score
   document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 }
+
 
 
 
