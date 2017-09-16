@@ -1,3 +1,5 @@
+ADDITIONAL FEATURE OF THIS BRANCH: Prompt at beginning of new games to set the original Goal Score
+
 This is a game app created with video tutorials.  Videos were watched and the game was created afterwards.
 All HTML and CSS was provided in the original file download.
 All JavaScript was written by me.
