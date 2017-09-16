@@ -1,3 +1,6 @@
+THIS BRANCH HAS A NEW RULE:
+- If a player rolls two 6's in a row he loses ALL points and ends his turn
+
 This is a game app created with video tutorials.  Videos were watched and the game was created afterwards.
 All HTML and CSS was provided in the original file download.
 All JavaScript was written by me.
