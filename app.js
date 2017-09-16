@@ -10,8 +10,6 @@ RULES OF THE GAME:
 // Set original default variables
 let scores, roundScore, activePlayer, gamePlaying, goalScore, rebuttleRound;
 
-goalScore = 20;
-
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
@@ -45,45 +43,30 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 document.querySelector('.btn-hold').addEventListener('click', function() {
   if (gamePlaying) {  
     if (rebuttleRound === false) {
-      // Add current score to global score
-      scores[activePlayer] += roundScore;
-    
-      // Update UI of global score
-      document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-
-      // Check to see if theres a winner => if no winner nextPlayer()
+      updateScores();
+      // If there was a winner...
       if (scores[activePlayer] >= goalScore) {
-        // Check to see if its Player 2 that won => If true then no rebuttle round
-        if (activePlayer === 1) {
+        // Check to see if it's Player 2 that won => If true then no rebuttle round
+        if (activePlayer === 1 /* Player 2 */) {
           endGame();
-          // gamePlaying = false;
-          // document.getElementById('name-' + activePlayer).textContent = 'Winner!';
-          // document.querySelector('.dice').style.display = 'none';
-          // document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
-          // document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
-        } else {
-          // If it was Player 1 that one, Player 2 gets one last chance at Rebuttle
+        } else /* If Player 1 Won */{
+          // Player 2 gets one last chance at Rebuttle
           rebuttleRound = true;
           document.getElementById('name-1').textContent = 'REBUTTLE!';
           nextPlayer();
         }
-      } else {
+      } else /* There's no winner... */ {
         nextPlayer();
       }
-    } else {
-      // THIS IS WHAT HAPPENS IF IT'S THE REBUTTLE ROUND
+    } else /* If this Hold click was Player 2 during the Rebuttle Round */ {
       if (activePlayer !== 1) { throw Error; }  // To ensure only player 2 is in in rebuttle mode
-      // Add current score to global score
-      scores[activePlayer] += roundScore;
-      // Update UI of global score
-      document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-      // See if Player 2's score is greater than goal
+      updateScores(); // Update Player 2's score, that is
+      // If Player 2's score is greater than goal...
       if (scores[activePlayer] >= goalScore) {
-      // If greater than goal, goalScore += 10, rebuttleround = false, next move
-        goalScore += 10;
-        rebuttleRound = false;
-        document.getElementById('name-1').textContent = 'Player 2';
-        nextPlayer();
+        goalScore += 25; // Reset goal to 25 higher than current goal
+        rebuttleRound = false; // Turn off rebuttleRound
+        document.getElementById('name-1').textContent = 'Player 2'; // Rename Player 2
+        nextPlayer();  // Continue Playing
       } else {
         endGame();
       }
@@ -111,7 +94,7 @@ function init() {
   // Resets initial scores
   gamePlaying = true;
   rebuttleRound = false;
-  goalScore = 20;
+  goalScore = 100;
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
@@ -140,12 +123,21 @@ function endGame() {
     document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
     document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
   } else {
+    // If it WAS a rebuttle round, Only Player 1 can win (If Player 2 hits goalScore the score is only increased)
+    document.getElementById('name-1').textContent = 'Player 2';
     gamePlaying = false;
     document.getElementById('name-0').textContent = 'Winner!';
     document.querySelector('.dice').style.display = 'none';
     document.querySelector('.player-0-panel').classList.remove('active');
     document.querySelector('.player-0-panel').classList.add('winner');
   }
+}
+
+function updateScores() {
+  // Add current score to global score
+  scores[activePlayer] += roundScore;
+  // Update UI of global score
+  document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 }
 
 

@@ -8,7 +8,13 @@ RULES OF THE GAME:
 - BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
+- PERSONAL RULE ADDED: REBUTTLE ROUND
+  - When Player 1 wins it's technically unfair because they received 1 more turn than Player 2
+  - Because of this, when Player 1 wins Player 2 gets 1 turn to reach the goal score (100), too
+  - If Player 2 hits the goal score it is increase by 25 and both players keep playing
 
 PERSONAL IMPROVEMENTS:
 - Various UI changes for my perferred tastes
+- Additional refractoring
+- Additional rules regarding Player 2 Rebuttle
 
